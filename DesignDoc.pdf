@@ -1,0 +1,38 @@
+Julianne Peyton-Brene							         April 10th, 2026
+
+My application of the Sudoku Puzzle Generator generates random, fully solved 9x9 Sudoku boards based off of a (pseudo-)
+randomly generated first row. After the first row, a backtracking strategy is implemented in order to fill the rest of the
+puzzle’s main array. The strategy uses the solve and isValid methods.
+
+The first row of the puzzle, stored in a 2D array of integers, is filled in by filling a secondhand array list of integer
+objects with a loop–equating each occupant to the value of its index, plus 1–and then shuffling it using Java’s Collections
+package to make the order random, before adding the random sequence to the first row of the puzzle. For the rest of the puzzle,
+indexing through either the board’s rows or columns was used to fill in the 2D array.
+
+The program iterates through each index of the puzzle’s array, checks if the current value is 0, and continuously checks
+numbers 1-9 until it finds one that doesn’t compromise the rest of the board. It does that using the isValid method, which
+verifies there’s no duplicates in the same row, column, or 3x3 subgroup of the current index. If it returns valid, it places
+the number and calls itself to decide if it needs to go onto the next index, or if the board has been solved. This is
+important, as the backtracking strategy goes back into the array a lot, so the board isn’t necessarily solved when the
+algorithm reaches the last index.
+
+The solve goes through every single occupant in the array after the first row and fills it with a looping number if it
+doesn’t violate the row and column rules of Sudoku, which it checks using the isValid method. Then, it resets to force the
+outer loops to continue with the next index. I chose to make the return statement of the method a boolean to implement a
+recursive approach to keep the loops going. isValid checks to make sure the previously looped number can actually be inserted
+into the current index without violating the rules of Sudoku. If the first loop detects the same number having been used in
+the same row or column as the current index, it quickly denies the insertion. Else, it checks the other condition of there
+not being repeats within each 3x3 grid, by checking the occupant of each index vertically and horizontally before and after
+the current one. If it finds no issues, it returns true.
+
+To test the program, I first edited the main method and manually filled in the first row with the [1, 2, 3, 4, 5, 6, 7, 8, 9]
+sequence provided in the first row of the example board in the assignment’s document. Then, I ran the program normally and
+manually, visually checked that 10 different generated boards weren’t breaking the rules. Finally, I used other 9x9 Sudoku
+generators from the internet, input the first row manually into my algorithm, and checked that the rest of the boards were
+either the same or, at the very least, still accurate.
+
+One major challenge I faced was deciding how exactly to go about the project, due to the free reign given to me by the simple
+prompt of only generating a solved Sudoku board. However, the actual difficulty came from my decision to have it randomly
+generate the first row, and continue from there. I had a lot of trouble with figuring out how to efficiently fill all 9
+columns randomly, mostly because I was hesitant to use Java packages other than Arrays and ArrayList. The problem was fixed
+as fast as it really should’ve been when I decided to just use Collections’ shuffle method.
